@@ -58,7 +58,11 @@ numbers.forEach((number) => {
       if (number === seven) num1 += "7";
       if (number === eight) num1 += "8";
       if (number === nine) num1 += "9";
-      if (number === zero && num1.length !== 0) num1 += "0";
+      if (number === zero && num1.length === 0) {
+        num1 = "";
+        resultDom.innerHTML = "0";
+      }
+      if (number === zero && num1.length !== 0 && num1[0] !== "0") num1 += "0";
     } else {
       if (number === one) num2 += "1";
       if (number === two) num2 += "2";
@@ -72,7 +76,10 @@ numbers.forEach((number) => {
       if (number === zero) num2 += "0";
     }
     console.log(num1, sign, num2, result);
-    resultDom.innerHTML = num1;
+    if (num1)
+      resultDom.innerHTML = num1
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   });
 });
 
@@ -99,13 +106,15 @@ buttonEqual.addEventListener("click", () => {
   if (num2 !== "") {
     handleCalc(num1, num2, sign);
   }
-  resultDom.innerHTML = result;
+  if (result) {
+    resultDom.innerHTML = result
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } else {
+    resultDom.innerHTML = "0";
+  }
+
   num1 = String(result);
   num2 = "";
   sign = "";
-});
-
-let key = "1";
-document.addEventListener("keydown", (e) => {
-  console.log(e.keyCode);
 });
