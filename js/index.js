@@ -43,12 +43,22 @@ function handleCalc(num1, num2, sign) {
     if (sign === "+") result = 0 + Number(num2);
     if (sign === "-") result = 0 - Number(num2);
   }
-  console.log(num1, sign, num2, result);
+  // console.log(num1, sign, num2, result);
 }
 
 // 천단위 절삭 함수
 function cutOffThousands(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// 리셋 함수
+function resetResult() {
+  num1 = "";
+  num2 = "";
+  sign = "";
+  result = 0;
+  resultDom.innerHTML = 0;
+  // console.log(num1, sign, num2, result);
 }
 
 // 이벤트 리스너
@@ -82,9 +92,11 @@ numbers.forEach((number) => {
       if (number === eight) num2 += "8";
       if (number === nine) num2 += "9";
       if (number === zero) num2 += "0";
+      if (number === dot) num2 += ".";
     }
-    console.log(num1, sign, num2, result);
+    // console.log(num1, sign, num2, result);
     if (num1) resultDom.innerHTML = cutOffThousands(num1);
+    if (num1 && sign) resultDom.innerHTML = cutOffThousands(num2);
   });
 });
 
@@ -95,18 +107,13 @@ calcs.forEach((calc) => {
     if (calc === buttonTimes) sign = "*";
     if (calc === buttonMinus) sign = "-";
     if (calc === buttonPlus) sign = "+";
-    console.log(num1, sign, num2, result);
+    // console.log(num1, sign, num2, result);
   });
 });
 
 // 리셋 버튼 클릭시 리셋 이벤트 리스너
 buttonReset.addEventListener("click", () => {
-  num1 = "";
-  num2 = "";
-  sign = "";
-  result = 0;
-  resultDom.innerHTML = 0;
-  console.log(num1, sign, num2, result);
+  resetResult();
 });
 
 // 계산결과 버튼 클릭시 결과 추출 이벤트 리스너
@@ -123,4 +130,43 @@ buttonEqual.addEventListener("click", () => {
   num1 = String(result);
   num2 = "";
   sign = "";
+});
+
+// 키보드 이벤트 리스너
+document.addEventListener("keydown", (e) => {
+  const key = e.key;
+  const code = e.code;
+
+  if (sign === "") {
+    if (code === "Digit1") num1 += "1";
+    if (code === "Digit2") num1 += "2";
+    if (code === "Digit3") num1 += "3";
+    if (code === "Digit4") num1 += "4";
+    if (code === "Digit5") num1 += "5";
+    if (code === "Digit6") num1 += "6";
+    if (code === "Digit7") num1 += "7";
+    if (code === "Digit8") num1 += "8";
+    if (code === "Digit9") num1 += "9";
+    if (code === "Digit0") num1 += "0";
+    if (code === "Period") num1 += ".";
+  } else {
+    if (code === "Digit1") num2 += "1";
+    if (code === "Digit2") num2 += "2";
+    if (code === "Digit3") num2 += "3";
+    if (code === "Digit4") num2 += "4";
+    if (code === "Digit5") num2 += "5";
+    if (code === "Digit6") num2 += "6";
+    if (code === "Digit7") num2 += "7";
+    if (code === "Digit8") num2 += "8";
+    if (code === "Digit9") num2 += "9";
+    if (code === "Digit0") num2 += "0";
+    if (code === "Period") num2 += ".";
+  }
+
+  if (sign === "") resultDom.innerHTML = cutOffThousands(num1);
+  if (sign) resultDom.innerHTML = cutOffThousands(num2);
+
+  // console.log(num1, sign, num2, result);
+  // console.log("Key:", key);
+  // console.log("Code:", code);
 });
