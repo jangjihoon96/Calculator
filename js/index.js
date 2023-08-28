@@ -30,22 +30,29 @@ let num2 = "";
 let sign = "";
 
 // 함수
+// 사칙연산 함수
 function handleCalc(num1, num2, sign) {
   if (num1 !== "") {
-    if (sign === "/") result = parseInt(num1) / parseInt(num2);
-    if (sign === "*") result = parseInt(num1) * parseInt(num2);
-    if (sign === "+") result = parseInt(num1) + parseInt(num2);
-    if (sign === "-") result = parseInt(num1) - parseInt(num2);
+    if (sign === "/") result = Number(num1) / Number(num2);
+    if (sign === "*") result = Number(num1) * Number(num2);
+    if (sign === "+") result = Number(num1) + Number(num2);
+    if (sign === "-") result = Number(num1) - Number(num2);
   } else {
-    if (sign === "/") result = 0 / parseInt(num2);
-    if (sign === "*") result = 0 * parseInt(num2);
-    if (sign === "+") result = 0 + parseInt(num2);
-    if (sign === "-") result = 0 - parseInt(num2);
+    if (sign === "/") result = 0 / Number(num2);
+    if (sign === "*") result = 0 * Number(num2);
+    if (sign === "+") result = 0 + Number(num2);
+    if (sign === "-") result = 0 - Number(num2);
   }
   console.log(num1, sign, num2, result);
 }
 
+// 천단위 절삭 함수
+function cutOffThousands(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 // 이벤트 리스너
+// 숫자 버튼 클릭시 숫자 추가 이벤트 리스너
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
     if (sign === "") {
@@ -58,6 +65,7 @@ numbers.forEach((number) => {
       if (number === seven) num1 += "7";
       if (number === eight) num1 += "8";
       if (number === nine) num1 += "9";
+      if (number === dot) num1 += ".";
       if (number === zero && num1.length === 0) {
         num1 = "";
         resultDom.innerHTML = "0";
@@ -76,13 +84,11 @@ numbers.forEach((number) => {
       if (number === zero) num2 += "0";
     }
     console.log(num1, sign, num2, result);
-    if (num1)
-      resultDom.innerHTML = num1
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (num1) resultDom.innerHTML = cutOffThousands(num1);
   });
 });
 
+// 기호 버튼 클릭시 기호 추가 이벤트 리스너
 calcs.forEach((calc) => {
   calc.addEventListener("click", () => {
     if (calc === buttonDivide) sign = `/`;
@@ -93,6 +99,7 @@ calcs.forEach((calc) => {
   });
 });
 
+// 리셋 버튼 클릭시 리셋 이벤트 리스너
 buttonReset.addEventListener("click", () => {
   num1 = "";
   num2 = "";
@@ -102,14 +109,13 @@ buttonReset.addEventListener("click", () => {
   console.log(num1, sign, num2, result);
 });
 
+// 계산결과 버튼 클릭시 결과 추출 이벤트 리스너
 buttonEqual.addEventListener("click", () => {
   if (num2 !== "") {
     handleCalc(num1, num2, sign);
   }
   if (result) {
-    resultDom.innerHTML = result
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    resultDom.innerHTML = cutOffThousands(result);
   } else {
     resultDom.innerHTML = "0";
   }
