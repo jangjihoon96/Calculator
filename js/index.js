@@ -61,6 +61,11 @@ function resetResult() {
   // console.log(num1, sign, num2, result);
 }
 
+// 퍼센트 계산 함수
+function percentNumber(num) {
+  return num * 0.01;
+}
+
 // 이벤트 리스너
 // 숫자 버튼 클릭시 숫자 추가 이벤트 리스너
 numbers.forEach((number) => {
@@ -109,6 +114,11 @@ calcs.forEach((calc) => {
     if (calc === buttonPlus) sign = "+";
     // console.log(num1, sign, num2, result);
   });
+});
+
+buttonPercentage.addEventListener("click", () => {
+  resultDom.innerHTML = percentNumber(num1);
+  num1 = percentNumber(num1);
 });
 
 // 리셋 버튼 클릭시 리셋 이벤트 리스너
